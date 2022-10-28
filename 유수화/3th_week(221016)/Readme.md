@@ -55,7 +55,7 @@ let Number : number = 3
 
 그리고 이를 middle ware chaining을 통해 컨텐츠 이름을 검증하여 특정 url에서만 정보가 나가도록했습니다.
 
-![Untitled](./img/Untitled.pngUntitled.png)
+![Untitled](./img/Untitled.png)
 
 나중에 DB를 연결하면 이 부분에서 존재하는 컨텐츠인지 등등을 검증할 수 있을 것.
 
