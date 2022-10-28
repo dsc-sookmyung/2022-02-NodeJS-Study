@@ -2,7 +2,7 @@
 
 아직 DB을 연결하는 건 진도가 안나간 것 같아. 연습용으로 API를 구상했던 결과물을 올립니다.
 
-![Untitled](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/2a843ae4-7fe6-4271-8a56-8475ea6c566c/Untitled.png)
+![Untitled](./img/Untitled%20(1).png)
 
 netflix 의 컨텐츠 상세페이지 뷰 가 만들어 지기 위해, 어떤 route, 어떤 res가 필요한지 생각해보았습니다.
 
@@ -55,7 +55,7 @@ let Number : number = 3
 
 그리고 이를 middle ware chaining을 통해 컨텐츠 이름을 검증하여 특정 url에서만 정보가 나가도록했습니다.
 
-![Untitled](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/9331c956-d75f-4a42-9d40-5ad815493928/Untitled.png)
+![Untitled](./img/Untitled.pngUntitled.png)
 
 나중에 DB를 연결하면 이 부분에서 존재하는 컨텐츠인지 등등을 검증할 수 있을 것.
 
