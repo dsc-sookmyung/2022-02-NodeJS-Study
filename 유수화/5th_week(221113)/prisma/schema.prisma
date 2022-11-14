@@ -1,0 +1,51 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model Like {
+  id       Int   @id @default(autoincrement())
+  user_id  Int
+  media_id Int
+  Media    Media @relation(fields: [media_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "like_media_id_fk")
+  User     User  @relation(fields: [user_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "like_user_id_fk")
+}
+
+model Media {
+  id           Int            @id @unique @default(autoincrement())
+  title        String         @unique @db.VarChar(400)
+  thumbnail    String?        @db.VarChar(1000)
+  length       Int
+  quality      String         @db.VarChar(50)
+  seriesNum    Int
+  age          Int?
+  createYear   Int
+  actors       String?
+  genre        String
+  character    String         @db.VarChar(300)
+  summary      String         @db.VarChar(1000)
+  Like         Like[]
+  current_time current_time[]
+}
+
+model User {
+  id           Int            @id @unique @default(autoincrement())
+  userName     String
+  age          Int            @default(5)
+  email        String?        @db.VarChar(400)
+  Like         Like[]
+  current_time current_time[]
+}
+
+model current_time {
+  id           Int   @id @default(autoincrement())
+  user_id      Int
+  media_id     Int
+  current_time Int
+  Media        Media @relation(fields: [media_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "current_time_media_id_fk")
+  User         User  @relation(fields: [user_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "current_time_user_id_fk")
+}
