@@ -1,0 +1,30 @@
+openapi: 3.0.0
+info:
+  version: "1.0.0"
+  title: "My API"
+  description: "My API"
+servers:
+  - description: My API
+    url: http://localhost:3000/
+paths:
+  /adder:
+    get:
+      summary: Adder API
+      parameters:
+        - name: one
+          in: query
+          description: First Value
+          required: true
+          schema:
+            type: integer
+        - name: two
+          in: query
+          description: Second Value
+          required: true
+          schema:
+            type: integer
+      responses:
+        "200":
+          description: Added Result
+          schema:
+            type: integer
