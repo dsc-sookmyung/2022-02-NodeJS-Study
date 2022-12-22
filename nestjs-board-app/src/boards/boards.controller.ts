@@ -9,8 +9,10 @@ import {
   UsePipes,
   ValidationPipe,
   NotFoundException,
+  ParseIntPipe,
 } from '@nestjs/common';
-import { Board, BoardStatus } from './board.model';
+import { BoardStatus } from './board-status.enum';
+import { Board } from './board.entity';
 import { BoardsService } from './boards.service';
 import { CreateBoardDto } from './dto/create-board-dto';
 import { BoardStatusVaildationPipe } from './pipes/board-status-vaildation.pipe';
@@ -20,35 +22,31 @@ export class BoardsController {
   constructor(private boardService: BoardsService) {}
 
   @Get()
-  getAllBoard(): Board[] {
+  getAllBoard(): Promise<Board[]> {
     return this.boardService.getAllBoards();
   }
 
   @Post()
   @UsePipes(ValidationPipe) // 유효성 체크
-  createBoard(@Body() createBoardDto: CreateBoardDto): Board {
+  createBoard(@Body() createBoardDto: CreateBoardDto): Promise<Board> {
     return this.boardService.createBoard(createBoardDto);
   }
 
   @Get('/:id')
-  getBoardById(@Param('id') id: string): Board {
-    const found = this.boardService.getBoardById(id);
-    if (!found) {
-      throw new NotFoundException(`Can't find Board with id ${id}`);
-    }
-    return found;
+  getBoardById(@Param('id') id: number): Promise<Board> {
+    return this.boardService.getBoardById(id);
   }
 
   @Delete('/:id')
-  deleteBoard(@Param('id') id: string): void {
-    this.boardService.deleteBoard(id);
+  deleteBoard(@Param('id', ParseIntPipe) id: number): Promise<void> {
+    return this.boardService.deleteBoard(id);
   }
 
   @Patch('/:id/status')
   updateBoardStatus(
-    @Param('id') id: string,
+    @Param('id', ParseIntPipe) id: number,
     @Body('status', BoardStatusVaildationPipe) status: BoardStatus,
-  ) {
+  ): Promise<Board> {
     return this.boardService.updateBoardStatus(id, status);
   }
 }
