@@ -1,16 +1,12 @@
 import {
   Controller,
   Body,
-  Get,
   Post,
-  Param,
-  Delete,
-  Patch,
-  UsePipes,
+  UseGuards,
   ValidationPipe,
-  NotFoundException,
-  ParseIntPipe,
+  Req,
 } from '@nestjs/common';
+import { AuthGuard } from '@nestjs/passport';
 import { AuthService } from './auth.service';
 import { AuthCredentialDto } from './dto/auth-credential.dto';
 
@@ -23,5 +19,18 @@ export class AuthController {
     @Body(ValidationPipe) authcredentialDto: AuthCredentialDto,
   ): Promise<void> {
     return this.authService.signUp(authcredentialDto);
+  }
+
+  @Post('/signin')
+  signIn(
+    @Body(ValidationPipe) authCredentialDto: AuthCredentialDto,
+  ): Promise<{ accessToken: string }> {
+    return this.authService.signIn(authCredentialDto);
+  }
+
+  @Post('/authTest')
+  @UseGuards(AuthGuard())
+  authTest(@Req() req) {
+    console.log(req);
   }
 }
