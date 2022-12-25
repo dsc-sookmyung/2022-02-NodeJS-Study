@@ -11,6 +11,7 @@ import {
   ParseIntPipe,
   UseGuards,
   Query,
+  Logger,
 } from '@nestjs/common';
 import { AuthGuard } from '@nestjs/passport';
 import {
@@ -30,6 +31,7 @@ import { BoardStatusVaildationPipe } from './pipes/board-status-vaildation.pipe'
 @Controller('boards')
 @UseGuards(AuthGuard('jwt'))
 export class BoardsController {
+  private logger = new Logger('BoardsController');
   constructor(private boardService: BoardsService) {}
 
   @ApiOperation({ summary: '전체 게시글 조회' })
@@ -41,6 +43,7 @@ export class BoardsController {
   @ApiOperation({ summary: '유저별 게시글 조회' })
   @Get('/list')
   getBoardByUser(@Query('id') id: number): Promise<Board[]> {
+    this.logger.verbose(`User ${id} trying to get all boards`);
     return this.boardService.getBoardsByUser(id);
   }
 
@@ -54,6 +57,11 @@ export class BoardsController {
     @Body() createBoardDto: CreateBoardDto,
     @GetUser() user: User,
   ): Promise<Board> {
+    this.logger.verbose(
+      `User ${user.username} creating a new board. Payload: ${JSON.stringify(
+        createBoardDto,
+      )}`,
+    );
     return this.boardService.createBoard(createBoardDto, user);
   }
 
