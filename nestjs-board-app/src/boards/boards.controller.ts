@@ -10,6 +10,7 @@ import {
   ValidationPipe,
   ParseIntPipe,
   UseGuards,
+  Query,
 } from '@nestjs/common';
 import { AuthGuard } from '@nestjs/passport';
 import {
@@ -35,6 +36,12 @@ export class BoardsController {
   @Get()
   getAllBoard(): Promise<Board[]> {
     return this.boardService.getAllBoards();
+  }
+
+  @ApiOperation({ summary: '유저별 게시글 조회' })
+  @Get('/list')
+  getBoardByUser(@Query('id') id: number): Promise<Board[]> {
+    return this.boardService.getBoardsByUser(id);
   }
 
   @ApiOperation({ summary: '게시글 작성' })
