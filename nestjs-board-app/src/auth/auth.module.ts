@@ -6,14 +6,17 @@ import { AuthController } from './auth.controller';
 import { AuthService } from './auth.service';
 import { JwtStrategy } from './jwt.strategy';
 import { UserRepository } from './user.repository';
+import * as dotenv from 'dotenv';
+
+dotenv.config();
 
 @Module({
   imports: [
     PassportModule.register({ defaultStrategy: 'jwt' }),
     JwtModule.register({
-      secret: 'Secret1234',
+      secret: process.env.JWT_SECRET,
       signOptions: {
-        expiresIn: 60 * 60, // 유효 시간: 1시간
+        expiresIn: process.env.JWT_EXPIRESIN, // 유효 시간: 1시간
       },
     }),
     TypeOrmExModule.forCustomRepository([UserRepository]),
