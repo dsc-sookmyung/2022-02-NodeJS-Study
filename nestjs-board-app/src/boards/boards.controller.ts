@@ -9,7 +9,9 @@ import {
   UsePipes,
   ValidationPipe,
   ParseIntPipe,
+  UseGuards,
 } from '@nestjs/common';
+import { AuthGuard } from '@nestjs/passport';
 import {
   ApiTags,
   ApiOperation,
@@ -23,6 +25,7 @@ import { BoardStatusVaildationPipe } from './pipes/board-status-vaildation.pipe'
 
 @ApiTags('boards')
 @Controller('boards')
+@UseGuards(AuthGuard('jwt'))
 export class BoardsController {
   constructor(private boardService: BoardsService) {}
 
